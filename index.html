@@ -1,404 +1,754 @@
 <!DOCTYPE html>
 <html lang="ku" dir="rtl">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>CBR TTS — دیزاین</title>
-  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Naskh+Arabic:wght@400;600;700&display=swap" />
-  <style>
-    :root {
-      color-scheme: light;
-      --bg: #f4f7fb;
-      --card: #ffffff;
-      --ink: #152638;
-      --muted: #65788b;
-      --line: #e1e8ef;
-      --sea: #166b70;
-      --sea-dark: #10575c;
-      --accent: #d9f1e8;
-      --hero-glow: #c6e8df;
-      --shadow: 0 24px 70px #19344a12;
-    }
-
-    @media (prefers-color-scheme: dark) {
-      :root {
-        color-scheme: dark;
-        --bg: #101a22;
-        --card: #172630;
-        --ink: #eaf1f3;
-        --muted: #9bb0ba;
-        --line: #2b414b;
-        --sea: #75d0bf;
-        --sea-dark: #a0e3d5;
-        --accent: #243e3c;
-        --hero-glow: #16433f;
-        --shadow: 0 24px 70px #0005;
-      }
-    }
-
-    * { box-sizing: border-box; }
-
-    body {
-      margin: 0;
-      min-height: 100vh;
-      background: radial-gradient(ellipse at 50% -20%, var(--hero-glow) 0, transparent 58%), var(--bg);
-      color: var(--ink);
-      font-family: "Noto Naskh Arabic", "Segoe UI", Tahoma, sans-serif;
-      font-size: 17px;
-      line-height: 1.8;
-      padding: 28px 18px 56px;
-    }
-
-    main {
-      width: 100%;
-      max-width: 760px;
-      margin: 0 auto;
-    }
-
-    nav {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 14px;
-      margin-bottom: 34px;
-      flex-wrap: wrap;
-    }
-
-    .brand {
-      display: flex;
-      align-items: center;
-      gap: 10px;
-      font-weight: 700;
-      color: var(--ink);
-      text-decoration: none;
-    }
-
-    .brand-mark {
-      display: grid;
-      place-items: center;
-      width: 40px;
-      height: 40px;
-      border-radius: 14px;
-      background: var(--sea);
-      color: #fff;
-      font-weight: 700;
-    }
-
-    .mode-switch {
-      display: flex;
-      align-items: center;
-      gap: 4px;
-      padding: 4px;
-      border: 1px solid var(--line);
-      border-radius: 17px;
-      background: color-mix(in srgb, var(--card) 75%, var(--bg));
-    }
-
-    .mode-item {
-      padding: 7px 14px;
-      border-radius: 13px;
-      font-size: .9rem;
-      font-weight: 700;
-      color: var(--muted);
-    }
-
-    .mode-item.active {
-      background: var(--card);
-      color: var(--sea-dark);
-      border: 1px solid var(--line);
-    }
-
-    .intro {
-      text-align: center;
-      margin: 0 auto 28px;
-      max-width: 600px;
-    }
-
-    .eyebrow {
-      display: inline-flex;
-      align-items: center;
-      gap: 7px;
-      padding: 4px 12px;
-      margin-bottom: 10px;
-      border-radius: 999px;
-      background: var(--accent);
-      color: var(--sea-dark);
-      font-size: .84rem;
-      font-weight: 700;
-    }
-
-    h1 {
-      font-size: clamp(2rem, 6vw, 2.7rem);
-      font-weight: 700;
-      margin: 0 0 6px;
-      line-height: 1.35;
-    }
-
-    .sub {
-      color: var(--muted);
-      margin: 0;
-    }
-
-    .card {
-      background: var(--card);
-      border: 1px solid var(--line);
-      border-radius: 26px;
-      padding: clamp(20px, 5vw, 36px);
-      box-shadow: var(--shadow);
-    }
-
-    .card-head {
-      display: flex;
-      align-items: flex-start;
-      gap: 14px;
-      margin-bottom: 20px;
-    }
-
-    .head-icon {
-      display: grid;
-      place-items: center;
-      flex: none;
-      width: 48px;
-      height: 48px;
-      border-radius: 16px;
-      background: var(--accent);
-      color: var(--sea);
-      font-weight: 700;
-    }
-
-    h2 {
-      font-size: 1.35rem;
-      margin: 0 0 2px;
-    }
-
-    .help {
-      color: var(--muted);
-      font-size: .92rem;
-      margin: 0;
-    }
-
-    textarea {
-      display: block;
-      width: 100%;
-      min-height: 210px;
-      resize: vertical;
-      border: 1px solid var(--line);
-      border-radius: 17px;
-      background: var(--bg);
-      color: inherit;
-      padding: 17px 19px;
-      font: inherit;
-      line-height: 1.8;
-    }
-
-    textarea::placeholder {
-      color: var(--muted);
-      opacity: .85;
-    }
-
-    .tag-box {
-      margin-top: 16px;
-      border: 1px solid var(--line);
-      border-radius: 16px;
-      background: var(--bg);
-      padding: 14px 15px;
-    }
-
-    .tag-title {
-      font-weight: 700;
-      margin: 0 0 6px;
-      font-size: .95rem;
-    }
-
-    .tag-note {
-      margin: 0 0 12px;
-      color: var(--muted);
-      font-size: .84rem;
-    }
-
-    .tag-presets {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 8px;
-      margin-bottom: 12px;
-    }
-
-    .tag-chip {
-      padding: 6px 12px;
-      border: 1px solid var(--line);
-      border-radius: 999px;
-      background: var(--card);
-      color: var(--ink);
-      font: inherit;
-      font-size: .84rem;
-      font-weight: 600;
-    }
-
-    .custom-tag-row {
-      display: flex;
-      gap: 8px;
-    }
-
-    .custom-tag-input {
-      flex: 1;
-      min-width: 0;
-      height: 42px;
-      padding: 6px 11px;
-      border: 1px solid var(--line);
-      border-radius: 11px;
-      background: var(--card);
-      color: var(--ink);
-      font: inherit;
-    }
-
-    .fake-btn {
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      min-height: 42px;
-      padding: 6px 16px;
-      border-radius: 12px;
-      background: var(--accent);
-      color: var(--sea-dark);
-      font-size: .88rem;
-      font-weight: 700;
-      border: 1px solid var(--sea);
-    }
-
-    .toolbar {
-      display: grid;
-      grid-template-columns: minmax(0, 1fr) auto;
-      gap: 14px;
-      align-items: end;
-      margin-top: 18px;
-    }
-
-    .field-label {
-      display: block;
-      font-weight: 700;
-      margin-bottom: 7px;
-    }
-
-    .select-box {
-      width: 100%;
-      height: 52px;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      padding: 8px 14px;
-      border: 1px solid var(--line);
-      border-radius: 13px;
-      background: var(--bg);
-      color: var(--muted);
-    }
-
-    .actions {
-      display: flex;
-      align-items: center;
-      gap: 12px;
-    }
-
-    .count {
-      color: var(--muted);
-      font-size: .85rem;
-      white-space: nowrap;
-    }
-
-    .primary-box {
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      min-height: 52px;
-      padding: 10px 22px;
-      border-radius: 14px;
-      background: var(--sea);
-      color: #fff;
-      font-weight: 700;
-    }
-
-    .privacy-note {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      gap: 8px;
-      margin: 22px 0 0;
-      color: var(--muted);
-      font-size: .84rem;
-      text-align: center;
-    }
-
-    @media (max-width: 560px) {
-      body { padding: 18px 14px 36px; }
-      .toolbar { grid-template-columns: 1fr; }
-      .actions { justify-content: space-between; }
-    }
-  </style>
-</head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>CBR TTS</title>
+<link rel="icon" type="image/png" href="/cbr-tts-logo.png">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Naskh+Arabic:wght@400;600;700&display=swap">
+<link rel="stylesheet" href="/site.css">
+<script src="/client.bundle.js"></script>
+<style>
+:root{color-scheme:light;--bg:#f4f7fb;--card:#fff;--ink:#152638;--muted:#65788b;--line:#e1e8ef;--sea:#166b70;--sea-dark:#10575c;--accent:#d9f1e8;--hero-glow:#c6e8df;--err:#a92b36;--shadow:0 24px 70px #19344a12}
+@media (prefers-color-scheme:dark){:root:not([data-theme]){color-scheme:dark;--bg:#101a22;--card:#172630;--ink:#eaf1f3;--muted:#9bb0ba;--line:#2b414b;--sea:#75d0bf;--sea-dark:#a0e3d5;--accent:#243e3c;--hero-glow:#16433f;--err:#ff929a;--shadow:0 24px 70px #0005}}
+.history-section{margin:22px 0 34px;padding:clamp(18px,4vw,28px);border:1px solid var(--line);border-radius:24px;background:var(--card);box-shadow:var(--shadow)}
+.history-heading{display:flex;align-items:center;gap:12px;margin-bottom:16px}
+.history-heading .head-icon{width:44px;height:44px}
+.history-heading h2{margin:0}
+.history-list{display:grid;gap:11px}
+.history-empty,.history-message{margin:10px 0 0;color:var(--muted);font-size:.92rem}
+.history-item{min-width:0;padding:15px;border:1px solid var(--line);border-radius:17px;background:color-mix(in srgb,var(--bg) 62%,var(--card))}
+.history-item-head{display:flex;align-items:flex-start;justify-content:space-between;gap:12px;margin-bottom:8px}
+.history-voice{min-width:0;font-weight:700}
+.history-owner,.history-date{display:block;color:var(--muted);font-size:.82rem}
+.history-date{flex:none}
+.history-text{margin:9px 0 12px;color:var(--ink);white-space:pre-wrap;overflow-wrap:anywhere;line-height:1.75}
+.history-actions{display:flex;align-items:center;gap:8px}
+.history-action{display:inline-flex;align-items:center;justify-content:center;gap:7px;min-height:39px;padding:6px 12px;border:1px solid var(--line);border-radius:12px;background:var(--card);color:var(--ink);font:inherit;font-size:.84rem;font-weight:700;cursor:pointer;text-decoration:none;transition:transform .16s,border-color .16s,color .16s}
+.history-action:hover{transform:translateY(-1px);border-color:var(--sea);color:var(--sea-dark)}
+.history-action svg{width:17px;height:17px;flex:none}
+.history-action[aria-pressed=true]{border-color:var(--sea);background:var(--accent);color:var(--sea-dark)}
+@media(max-width:480px){.history-item-head{flex-direction:column;gap:2px}.history-actions .history-action{flex:1}}
+@view-transition{navigation:auto}
+::view-transition-group(root){perspective:1400px}
+::view-transition-old(root){animation:section-leave .22s ease-in both;transform-origin:50% 50%;backface-visibility:hidden}
+::view-transition-new(root){animation:section-arrive .48s cubic-bezier(.2,.75,.25,1) both;transform-origin:50% 50%;backface-visibility:hidden}
+@keyframes section-leave{to{opacity:0;transform:perspective(1400px) rotateY(-7deg) translateZ(-55px) scale(.97)}}
+@keyframes section-arrive{from{opacity:0;transform:perspective(1400px) rotateY(7deg) translateZ(-70px) scale(.96)}to{opacity:1;transform:perspective(1400px) rotateY(0) translateZ(0) scale(1)}}
+*{box-sizing:border-box}
+[hidden]{display:none!important}
+body{margin:0;min-height:100vh;background:radial-gradient(ellipse at 50% -20%,var(--hero-glow) 0,transparent 58%),var(--bg);color:var(--ink);font-family:"Noto Naskh Arabic","Segoe UI",Tahoma,sans-serif;font-size:17px;line-height:1.8;padding:28px 20px 56px}
+main{width:100%;max-width:760px;margin:0 auto}
+nav{display:flex;align-items:center;justify-content:space-between;gap:18px;margin:0 0 42px}
+.brand{display:flex;align-items:center;gap:10px;color:var(--ink);font-weight:700;text-decoration:none}
+.brand-mark{display:grid;place-items:center;width:40px;height:40px;border-radius:14px;background:var(--sea);color:#fff}
+.mode-switch{display:flex;align-items:center;gap:4px;padding:4px;border:1px solid var(--line);border-radius:17px;background:color-mix(in srgb,var(--card) 72%,var(--bg));box-shadow:0 5px 18px #19344a0a}
+.mode-link{display:inline-flex;align-items:center;justify-content:center;gap:8px;min-height:42px;padding:7px 13px;border:1px solid transparent;border-radius:13px;color:var(--muted);font-size:.9rem;font-weight:700;text-decoration:none;white-space:nowrap;transition:background .18s,color .18s,box-shadow .18s,transform .18s}
+.mode-link:hover{color:var(--sea);background:var(--accent)}
+.mode-link[aria-current=page]{border-color:var(--line);background:var(--card);color:var(--sea-dark);box-shadow:0 3px 10px #19344a12}
+.mode-link svg{flex:none}
+.intro{text-align:center;margin:0 auto 28px;max-width:600px}
+.eyebrow{display:inline-flex;align-items:center;gap:7px;padding:4px 12px;margin-bottom:10px;border-radius:999px;background:var(--accent);color:var(--sea-dark);font-size:.84rem;font-weight:700}
+h1{font-size:clamp(2rem,6vw,2.7rem);font-weight:700;margin:0 0 5px;line-height:1.35;letter-spacing:-.03em}
+.sub{color:var(--muted);margin:0}
+.card{background:var(--card);border:1px solid var(--line);border-radius:26px;padding:clamp(20px,5vw,36px);box-shadow:var(--shadow)}
+.card-head{display:flex;align-items:flex-start;gap:14px;margin-bottom:20px}
+.head-icon{display:grid;place-items:center;flex:none;width:48px;height:48px;border-radius:16px;background:var(--accent);color:var(--sea)}
+h2{font-size:1.35rem;margin:0 0 2px}
+.help{color:var(--muted);font-size:.92rem;margin:0}
+.field-label{display:block;font-weight:700;margin-bottom:7px}
+textarea{display:block;width:100%;min-height:220px;resize:vertical;border:1px solid var(--line);border-radius:17px;background:var(--bg);color:inherit;padding:17px 19px;font:inherit;line-height:1.8;transition:border-color .18s,box-shadow .18s}
+textarea::placeholder{color:var(--muted);opacity:.8}
+textarea:focus,select:focus{outline:none;border-color:var(--sea);box-shadow:0 0 0 4px color-mix(in srgb,var(--sea) 15%,transparent)}
+.tag-tools{margin-top:15px;border:1px solid var(--line);border-radius:16px;background:var(--bg);overflow:hidden}
+.tag-tools summary{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:12px 15px;cursor:pointer;font-weight:700;list-style:none}
+.tag-tools summary::-webkit-details-marker{display:none}
+.tag-tools summary::after{content:"";width:8px;height:8px;flex:none;border-right:2px solid var(--muted);border-bottom:2px solid var(--muted);transform:rotate(45deg);transition:transform .18s}
+.tag-tools[open] summary::after{transform:rotate(225deg)}
+.tag-tools-body{padding:0 15px 15px}
+.tag-note{margin:0 0 12px;color:var(--muted);font-size:.84rem}
+.tag-presets{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:12px}
+.tag-chip{min-height:36px;padding:5px 12px;border:1px solid var(--line);border-radius:999px;background:var(--card);color:var(--ink);font:inherit;font-size:.84rem;font-weight:600;cursor:pointer;transition:background-color .2s,color .2s,border-color .2s,transform .18s}
+.tag-chip:hover:not(:disabled),.tag-chip:focus-visible,.tag-chip:active,.tag-chip[aria-pressed=true],.tag-chip[aria-selected=true],.tag-chip.selected{border-color:var(--sea);background:var(--accent);color:var(--sea-dark)}
+.custom-tag-row{display:flex;gap:8px}
+.custom-tag-input{min-width:0;flex:1;height:42px;padding:6px 11px;border:1px solid var(--line);border-radius:11px;background:var(--card);color:var(--ink);font:inherit}
+.custom-tag-input:focus{outline:none;border-color:var(--sea);box-shadow:0 0 0 3px color-mix(in srgb,var(--sea) 15%,transparent)}
+.custom-tag-row button{min-height:42px;padding:6px 14px;border:1px solid var(--sea);border-radius:11px;background:var(--accent);color:var(--sea-dark);font-size:.84rem;transition:background-color .2s,color .2s,border-color .2s,transform .18s}
+.toolbar{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:14px;align-items:end;margin-top:18px}
+.voice-field{min-width:0}
+select{width:100%;height:52px;font:inherit;color:inherit;background:var(--bg);border:1px solid var(--line);border-radius:13px;padding:8px 14px}
+.voice-picker{position:relative}
+.voice-trigger{width:100%;height:52px;display:flex;justify-content:space-between;align-items:center;text-align:right;background:var(--bg);color:var(--ink);border:1px solid var(--line);border-radius:13px;padding:8px 14px;font-weight:400;transition:background-color .2s,color .2s,border-color .2s,box-shadow .2s}
+.voice-trigger:hover:not(:disabled),.voice-trigger:focus-visible,.voice-trigger:active,.voice-trigger[aria-expanded=true]{background:var(--accent);border-color:var(--sea);color:var(--sea-dark);transform:none}
+.voice-trigger:disabled{opacity:1;color:var(--ink);cursor:wait}
+.voice-trigger-label{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.voice-trigger-placeholder{color:var(--ink);transition:color .2s}
+.voice-chevron{flex:none;color:var(--muted);transition:transform .18s}
+.voice-trigger[aria-expanded=true] .voice-chevron{transform:rotate(180deg)}
+.voice-menu{position:absolute;z-index:5;top:calc(100% + 9px);right:0;left:0;display:flex;flex-direction:column;max-height:var(--voice-menu-max-height,min(360px,calc(100dvh - 32px)));padding:10px;border:1px solid var(--line);border-radius:17px;background:var(--card);box-shadow:var(--shadow)}
+.voice-menu.opens-up{top:auto;bottom:calc(100% + 9px)}
+.voice-search{width:100%;height:44px;margin-bottom:8px;padding:8px 12px;border:1px solid var(--line);border-radius:11px;background:var(--bg);color:var(--ink);font:inherit}
+.voice-search:focus{outline:none;border-color:var(--sea);box-shadow:0 0 0 3px color-mix(in srgb,var(--sea) 15%,transparent)}
+.voice-options{flex:1 1 auto;min-height:0;max-height:var(--voice-options-max-height,min(260px,calc(100dvh - 120px)));overflow:auto;overscroll-behavior:contain}
+.voice-option{display:flex;width:100%;align-items:center;gap:6px;padding:4px;border-radius:10px;background:transparent}
+.voice-option:hover,.voice-option.active{background:var(--accent);color:var(--sea-dark)}
+.voice-option-select{display:flex;flex:1;min-width:0;align-items:center;gap:10px;padding:5px;border:0;background:transparent;color:var(--ink);font:inherit;text-align:right;cursor:pointer}
+.voice-option-select[aria-selected=true]{color:var(--sea-dark)}
+.voice-option-preview{display:grid;place-items:center;flex:none;width:38px;height:38px;min-height:38px;padding:0;border:1px solid var(--line);border-radius:50%;background:var(--card);color:var(--sea-dark);cursor:pointer}
+.voice-option-preview:hover:not(:disabled),.voice-option-preview:focus-visible,.voice-option-preview:active,.voice-option-preview[aria-pressed=true]{border-color:var(--sea);background:var(--accent);color:var(--sea-dark)}
+.voice-option-preview svg{width:18px;height:18px;overflow:visible}
+.voice-option-preview .preview-play,.voice-option-preview .preview-stop{transform-box:fill-box;transform-origin:center;transition:opacity .2s ease,transform .25s cubic-bezier(.2,.8,.2,1)}
+.voice-option-preview .preview-play{opacity:1;transform:scale(1)}
+.voice-option-preview .preview-stop{opacity:0;transform:scale(.45) rotate(-45deg)}
+.voice-option-preview[aria-pressed=true] .preview-play{opacity:0;transform:scale(.45) rotate(45deg)}
+.voice-option-preview[aria-pressed=true] .preview-stop{opacity:1;transform:scale(1) rotate(0)}
+@media(prefers-reduced-motion:reduce){.voice-option-preview .preview-play,.voice-option-preview .preview-stop{transition:none}}
+.voice-option-mark{display:grid;place-items:center;flex:none;width:30px;height:30px;border-radius:9px;background:var(--bg);color:var(--sea)}
+.voice-option-name{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.voice-empty{padding:12px;color:var(--muted);text-align:center}
+.native-voice{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0}
+.actions{display:flex;align-items:center;gap:14px}
+.count{direction:ltr;unicode-bidi:isolate;color:var(--muted);font-size:.85rem;white-space:nowrap;font-variant-numeric:tabular-nums}
+button{display:inline-flex;align-items:center;justify-content:center;gap:10px;min-height:52px;padding:10px 22px;border:0;border-radius:14px;background:var(--sea);color:#fff;font:inherit;font-weight:700;cursor:pointer;transition:transform .18s,background .18s}
+button:hover:not(:disabled){background:var(--sea-dark);color:#fff;transform:translateY(-1px)}
+button:disabled{opacity:.55;cursor:wait}
+:focus-visible{outline:3px solid var(--sea);outline-offset:3px}
+.result{margin-top:18px;padding:clamp(18px,4vw,24px);border:1px solid var(--line);border-radius:22px;background:var(--card);box-shadow:var(--shadow)}
+.result-head{display:flex;align-items:center;gap:11px;font-weight:700}
+.result-icon{display:grid;place-items:center;width:38px;height:38px;border-radius:12px;background:var(--accent);color:var(--sea)}
+.wave{display:flex;align-items:center;justify-content:center;gap:5px;height:46px;margin:8px 0 16px}
+.wave i{width:4px;height:calc(8px + (var(--bar,1) * 2px));max-height:34px;border-radius:99px;background:color-mix(in srgb,var(--sea) 54%,var(--line));transition:height .15s,background .15s}
+.wave.on i{animation:pulse 1s ease-in-out infinite}
+.wave.on i:nth-child(3n){animation-delay:.2s}.wave.on i:nth-child(3n+1){animation-delay:.4s}
+@keyframes pulse{0%,100%{height:8px}50%{height:38px}}
+@media(prefers-reduced-motion:reduce){.wave.on i{animation:none;height:24px}::view-transition-group(root),::view-transition-old(root),::view-transition-new(root){animation:none!important}*,*::before,*::after{scroll-behavior:auto!important;transition:none!important}}
+.player-controls{display:flex;align-items:center;gap:14px;padding:14px;border:1px solid var(--line);border-radius:18px;background:var(--bg)}
+.play-toggle{flex:none;width:50px;min-height:50px;padding:0;border-radius:50%;background:var(--sea);color:#fff}
+.play-toggle:hover:not(:disabled){background:var(--sea-dark)}
+.timeline{flex:1;min-width:0}
+.time-labels{display:flex;justify-content:space-between;direction:ltr;margin-bottom:3px;color:var(--muted);font-size:.77rem;font-variant-numeric:tabular-nums}
+#seek{display:block;width:100%;height:22px;margin:0;accent-color:var(--sea);cursor:pointer}
+#seek:disabled{cursor:default;opacity:.5}
+#dl{display:grid;place-items:center;flex:none;width:44px;height:44px;border:1px solid var(--line);border-radius:13px;background:var(--card);color:var(--sea);text-decoration:none;transition:background .18s,transform .18s}
+#dl:hover{background:var(--accent);transform:translateY(-1px)}
+.native-audio{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0}
+#msg{color:var(--err);min-height:1.8em;margin:14px 2px 0;text-align:center}
+#msg:empty{min-height:0;margin:0}
+.privacy-note{display:flex;align-items:center;justify-content:center;gap:8px;margin:18px 0 0;color:var(--muted);font-size:.82rem;text-align:center}
+@media(max-width:560px){body{padding:18px 14px 36px}nav{flex-wrap:wrap;margin-bottom:32px}.mode-switch{width:100%}.mode-link{flex:1;padding-inline:8px;font-size:.84rem}.toolbar{grid-template-columns:1fr}.actions{justify-content:space-between}.actions button{flex:1}.card{border-radius:21px}textarea{min-height:190px}}
+</style>
 <body>
-  <main>
-    <nav aria-label="سەرەکی">
-      <div class="brand">
-        <span class="brand-mark">C</span>
-        <span>CBR TTS</span>
+<main>
+  <nav aria-label="سەرەکی">
+    <a class="brand" href="/"><img class="brand-logo" src="/cbr-tts-logo.png" alt="">CBR TTS</a>
+    <div class="mode-switch" aria-label="شێوازێ کار">
+      <a class="mode-link" href="/" aria-current="page">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M4 5h16M4 10h16M4 15h10M4 20h7" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>
+        CBR TTS
+      </a>
+      <a class="mode-link" href="/clone">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M12 15a3 3 0 0 0 3-3V6a3 3 0 1 0-6 0v6a3 3 0 0 0 3 3Z" stroke="currentColor" stroke-width="1.8"/><path d="M19 11v1a7 7 0 0 1-14 0v-1m7 8v3m-4 0h8" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>
+        تۆمارکرنا دەنگی
+      </a>
+    </div>
+  </nav>
+  <header class="intro">
+    <span class="eyebrow">
+      <svg width="15" height="15" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M4 10v4m4-8v12m4-16v20m4-16v12m4-8v4" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>
+      CBR TTS
+    </span>
+    <h1>CBR TTS</h1>
+    <p class="sub">ئێکەمین ژیریا دەستکرد کو نڤیسارێ بکەتە دەنگێ سروشتی ب زاراڤێ بادینی و هەمی زاراڤێن جیهانی</p>
+  </header>
+  <section class="card" aria-labelledby="textTitle">
+    <div class="card-head">
+      <span class="head-icon" aria-hidden="true">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none"><path d="M4 5h16M4 10h16M4 15h10M4 20h7" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>
+      </span>
+      <div>
+        <h2 id="textTitle">نڤیسارا خو بنڤیسە</h2>
+        <p class="help">نڤیسارا خوو دناڤا بوکسێ دا بنڤیسە</p>
       </div>
-      <div class="mode-switch">
-        <span class="mode-item active">CBR TTS</span>
-        <span class="mode-item">تۆمارکرنا دەنگی</span>
-      </div>
-    </nav>
-
-    <header class="intro">
-      <span class="eyebrow">CBR TTS</span>
-      <h1>CBR TTS</h1>
-      <p class="sub">ئێکەمین ژیریا دەستکرد کو نڤیسارێ بکەتە دەنگێ سروشتی ب زاراڤێ بادینی و هەمی زاراڤێن جیهانی</p>
-    </header>
-
-    <section class="card">
-      <div class="card-head">
-        <span class="head-icon">≡</span>
-        <div>
-          <h2>نڤیسارا خو بنڤیسە</h2>
-          <p class="help">نڤیسارا خوو دناڤا بوکسێ دا بنڤیسە</p>
-        </div>
-      </div>
-
-      <textarea placeholder="لێرە نڤیسارا خو بنڤیسە..." aria-label="نڤیسار"></textarea>
-
-      <div class="tag-box">
-        <p class="tag-title">گوهورینا هەستێ ئاخفتنێ</p>
+    </div>
+    <textarea id="text" maxlength="2500" placeholder="لێرە نڤیسارا خو بنڤیسە..." aria-label="نڤیسار بۆ دەنگکرنێ"></textarea>
+    <details class="tag-tools">
+      <summary>گوهورینا هەستێ ئاخفتنێ</summary>
+      <div class="tag-tools-body">
         <p class="tag-note">نیشانا تە ب ئینگلیزی دێ دناڤا نڤیسارا تەدا زێدەبیت وەکی <bdi>[excited]</bdi></p>
-        <div class="tag-presets">
-          <span class="tag-chip">ب دەنگێ نزم</span>
-          <span class="tag-chip">ب هاوار</span>
-          <span class="tag-chip">پێکەنین</span>
-          <span class="tag-chip">ب خۆشی</span>
-          <span class="tag-chip">ب خەم</span>
-          <span class="tag-chip">ب حەیرانی</span>
-          <span class="tag-chip">ب تووڕەیی</span>
-          <span class="tag-chip">ب هێدی و نەرم</span>
+        <div class="tag-presets" aria-label="نیشانەی ئامادە">
+          <button class="tag-chip" type="button" data-tag="whispering">ب دەنگێ نزم</button>
+          <button class="tag-chip" type="button" data-tag="shouting">ب هاوار</button>
+          <button class="tag-chip" type="button" data-tag="laughing">پێکەنین</button>
+          <button class="tag-chip" type="button" data-tag="excited">ب خۆشی</button>
+          <button class="tag-chip" type="button" data-tag="sad">ب خەم</button>
+          <button class="tag-chip" type="button" data-tag="curious">ب حەیرانی</button>
+          <button class="tag-chip" type="button" data-tag="casual">ب ئارامی</button>
+          <button class="tag-chip" type="button" data-tag="annoyed">ب بێزاری</button>
+          <button class="tag-chip" type="button" data-tag="under his breath">ب دەنگێ نزم و هێدی</button>
+          <button class="tag-chip" type="button" data-tag="sigh">ئاخ</button>
+          <button class="tag-chip" type="button" data-tag="ecstatic">ب خۆشییا زۆر</button>
+          <button class="tag-chip" type="button" data-tag="dismissive">ب بێ گرنگی</button>
+          <button class="tag-chip" type="button" data-tag="quietly curious">ب حەیرانی و نزم</button>
+          <button class="tag-chip" type="button" data-tag="giggle">پێکەنینا نزم</button>
+          <button class="tag-chip" type="button" data-tag="measured">ب هێواشی و ڕێک</button>
+          <button class="tag-chip" type="button" data-tag="soft chuckle">پێکەنینا نەرم</button>
+          <button class="tag-chip" type="button" data-tag="lower, thoughtful">ب دەنگێ نزم و هزرکرن</button>
+          <button class="tag-chip" type="button" data-tag="quiet, measured narration">خواندنا هێدی و ڕێک</button>
+          <button class="tag-chip" type="button" data-tag="warmly">ب گەرمی</button>
+          <button class="tag-chip" type="button" data-tag="confidently">ب متمانە</button>
+          <button class="tag-chip" type="button" data-tag="reassuringly">ب ئارامکرنێ</button>
+          <button class="tag-chip" type="button" data-tag="cheerfully">ب دڵخۆشی</button>
+          <button class="tag-chip" type="button" data-tag="playfully">ب یاری و خۆشی</button>
+          <button class="tag-chip" type="button" data-tag="sarcastically">ب گاڵتە و گاڤان</button>
+          <button class="tag-chip" type="button" data-tag="mysteriously">ب نهێنی</button>
+          <button class="tag-chip" type="button" data-tag="dramatically">ب شانۆیی</button>
+          <button class="tag-chip" type="button" data-tag="fearfully">ب ترس</button>
+                    <button class="tag-chip" type="button" data-tag="nervously">ب دڵەڕاوکێ</button>
+          <button class="tag-chip" type="button" data-tag="angrily">ب تووڕەیی</button>
+          <button class="tag-chip" type="button" data-tag="frustrated">ب بێزاری و بێهیوایی</button>
+          <button class="tag-chip" type="button" data-tag="surprised">ب سەرسامبوون</button>
+          <button class="tag-chip" type="button" data-tag="crying">ب گریان</button>
+          <button class="tag-chip" type="button" data-tag="tenderly">ب نەرم و میهرەبانی</button>
+          <button class="tag-chip" type="button" data-tag="persuasively">ب قایلکرنێ</button>
+          <button class="tag-chip" type="button" data-tag="storytelling">چیرۆک وەک بێژە</button>
+          <button class="tag-chip" type="button" data-tag="solemnly">ب جیددی و ڕێز</button>
+          <button class="tag-chip" type="button" data-tag="breathlessly">ب هەناسەبڕی</button>
+          <button class="tag-chip" type="button" data-tag="hesitantly">ب دوودڵی</button>
+          <button class="tag-chip" type="button" data-tag="gently">ب هێدی و نەرم</button>
+          <button class="tag-chip" type="button" data-tag="energetically">ب وزەکا زۆر</button>
+          <button class="tag-chip" type="button" data-tag="tired">ب ماندوویی</button>
+          <button class="tag-chip" type="button" data-tag="whispering urgently">ب دەنگێ نزم و پەلە</button>
         </div>
-        <div class="custom-tag-row">
-          <input class="custom-tag-input" type="text" placeholder="نیشانا خوو ب ئینگلیزی لڤێرێ بنڤێسە وەک: softly" />
-          <span class="fake-btn">نیشانێ زێدە بکە</span>
-        </div>
+        <form class="custom-tag-row" id="customTagForm">
+          <input class="custom-tag-input" id="customTag" maxlength="40" type="text" placeholder="نیشانا خوو ب ئینگلیزی لڤێرێ بنڤێسە وەک: softly" aria-label="نیشانەکا تایبەت">
+          <button type="submit">نیشانێ زێدە بکە</button>
+        </form>
       </div>
-
-      <div class="toolbar">
-        <div>
-          <span class="field-label">دەنگەکی بهەلبژێرە</span>
-          <div class="select-box">
-            <span>دەنگەکی بهەلبژێرە</span>
-            <span>▾</span>
+    </details>
+    <div class="toolbar">
+      <div class="voice-field">
+        <span class="field-label" id="voiceLabel">دەنگەکی بهەلبژێرە</span>
+        <div class="voice-picker" id="voicePicker">
+          <select class="native-voice" id="voice" aria-hidden="true" tabindex="-1" disabled>
+            <option value="">دەنگ یێ دهێن...</option>
+          </select>
+          <button class="voice-trigger" id="voiceTrigger" type="button" aria-labelledby="voiceLabel voiceSelection" aria-haspopup="listbox" aria-expanded="false" aria-controls="voiceMenu" disabled>
+            <span class="voice-trigger-label voice-trigger-placeholder" id="voiceSelection">دەنگ یێ دهێن...</span>
+            <svg class="voice-chevron" width="18" height="18" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="m7 10 5 5 5-5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </button>
+          <div class="voice-menu" id="voiceMenu" hidden>
+            <input class="voice-search" id="voiceSearch" type="search" placeholder="ل دەنگی بگەریێ..." autocomplete="off" aria-label="گەریان ل دەنگان">
+            <div class="voice-options" id="voiceOptions" role="listbox" aria-labelledby="voiceLabel"></div>
           </div>
         </div>
-        <div class="actions">
-          <span class="count">0 / 2500</span>
-          <span class="primary-box">دەنگی ساز بکە</span>
-        </div>
       </div>
-    </section>
+      <div class="actions">
+        <span class="count"><span id="n">0</span> / <span id="textLimit">2500</span></span>
+        <button id="go" disabled>
+          <span id="goLabel">دەنگی ساز بکە</span>
+          <svg width="19" height="19" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M5 12h14m-6-6 6 6-6 6" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </button>
+      </div>
+    </div>
+  </section>
+  <section class="result" id="result" aria-label="دەنگێ دروستکری" hidden>
+    <div class="result-head">
+      <span class="result-icon" aria-hidden="true">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none"><path d="M4 10v4m4-8v12m4-16v20m4-16v12m4-8v4" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>
+      </span>
+      دەنگێ تە یێ ئامادەیە
+    </div>
+    <div class="wave" id="wave" aria-hidden="true"></div>
+    <div class="player-controls">
+      <button class="play-toggle" id="playToggle" type="button" aria-label="دەنگی ڤەکە" title="دەنگی ڤەکە">
+        <svg id="playIcon" width="21" height="21" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="m8 5 11 7-11 7V5Z" fill="currentColor" stroke="currentColor" stroke-linejoin="round"/></svg>
+      </button>
+      <div class="timeline">
+        <div class="time-labels"><span id="currentTime">0:00</span><span id="duration">0:00</span></div>
+        <input id="seek" type="range" min="0" max="0" step="0.1" value="0" aria-label="جهێ دەنگی" disabled>
+      </div>
+      <a id="dl" href="#" download="CBR-TTS.mp3" aria-label="دەنگی دانلود بکە mp3" title="دەنگی دانلود بکە mp3">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M12 3v12m0 0 4-4m-4 4-4-4M5 17v3h14v-3" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </a>
+    </div>
+    <audio class="native-audio" id="player" preload="metadata" aria-hidden="true" tabindex="-1"></audio>
+  </section>
+  <p id="msg" role="alert"></p>
+  <section class="history-section" id="historySection" aria-labelledby="historyTitle" hidden>
+    <div class="history-heading">
+      <span class="head-icon" aria-hidden="true">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none"><path d="M3 12a9 9 0 1 0 2.64-6.36L3 8m0-5v5h5m4-2v6l4 2" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </span>
+      <div>
+        <h2 id="historyTitle">مێژوویا دەنگان</h2>
+        <p class="help">نڤیسار و دەنگێن دروستکری تا ٣٠ ڕۆژان دهێنە پاراستن و پاشی دهێنە ژێبرن.</p>
+      </div>
+    </div>
+    <div class="history-list" id="historyList" aria-live="polite"></div>
+    <p class="history-message" id="historyMessage" role="status"></p>
+  </section>
+  <p class="privacy-note">
+    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M12 22s8-4 8-11V5l-8-3-8 3v6c0 7 8 11 8 11Z" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"/><path d="m9 12 2 2 4-4" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></svg>
+    کورد سی بی ئاڕ
+  </p>
+</main>
+<script>
+const $=id=>document.getElementById(id);
+const text=$("text"),nEl=$("n"),voice=$("voice"),go=$("go"),goLabel=$("goLabel");
+const player=$("player"),wave=$("wave"),msg=$("msg"),result=$("result"),dl=$("dl");
+const playToggle=$("playToggle"),playIcon=$("playIcon"),seek=$("seek");
+const currentTimeLabel=$("currentTime"),durationLabel=$("duration");
+const voicePicker=$("voicePicker"),voiceTrigger=$("voiceTrigger"),voiceSelection=$("voiceSelection");
+const voiceMenu=$("voiceMenu"),voiceSearch=$("voiceSearch"),voiceOptions=$("voiceOptions");
+const customTagForm=$("customTagForm"),customTagInput=$("customTag");
+const historySection=$("historySection"),historyList=$("historyList"),historyMessage=$("historyMessage");
 
-    <p class="privacy-note">کورد سی بی ئاڕ — دیزاین</p>
-  </main>
+let voicesAvailable=false,generating=false,loadedVoices=[];
+let historyAudio=null,historyAudioButton=null,historyAudioUrl="";
+let voicePreviewAudio=null,voicePreviewButton=null;
+
+function updateCount(){
+  nEl.textContent=String(text.value.length);
+  go.disabled=!voicesAvailable||generating||!text.value.trim();
+}
+text.addEventListener("input",updateCount);
+
+function insertTag(tag){
+  const snippet=`[${tag}] `;
+  const start=text.selectionStart??text.value.length;
+  const end=text.selectionEnd??text.value.length;
+  text.value=text.value.slice(0,start)+snippet+text.value.slice(end);
+  updateCount();
+  text.focus();
+}
+
+document.querySelectorAll(".tag-chip[data-tag]").forEach(btn=>{
+  btn.addEventListener("click",()=>insertTag(btn.dataset.tag));
+});
+
+customTagForm.addEventListener("submit",event=>{
+  event.preventDefault();
+  const tag=customTagInput.value.trim().toLowerCase();
+  if(!tag)return;
+  if(!/^[a-z][a-z\s,'-]{0,39}$/i.test(tag)){
+    msg.textContent=window.errorMessage?window.errorMessage("validation_error"):"تکایە نیشانەکێ ب پیتێن ئینگلیزی بنڤیسە.";
+    return;
+  }
+  insertTag(tag);
+  customTagInput.value="";
+});
+
+dl.addEventListener("click",()=>{
+  const date=new Date();
+  const day=[date.getFullYear(),String(date.getMonth()+1).padStart(2,"0"),String(date.getDate()).padStart(2,"0")].join("-");
+  dl.download=`CBR-TTS_${day}.mp3`;
+});
+
+function historyDay(value){
+  const date=new Date(value);
+  return [date.getFullYear(),String(date.getMonth()+1).padStart(2,"0"),String(date.getDate()).padStart(2,"0")].join("-");
+}
+
+function setHistoryPlayButton(button,playing){
+  button.setAttribute("aria-pressed",String(playing));
+  button.setAttribute("aria-label",playing?"دەنگێ ڤێ تومارێ بگرە":"دەنگێ ڤێ تومارێ ڤەکە");
+  button.title=playing?"راوستاندن":"گوهداری";
+  button.innerHTML=playing
+    ?'<svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M7 5h4v14H7zM15 5h4v14h-4z"/></svg><span>راوستاندن</span>'
+    :'<svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="m8 5 11 7-11 7V5Z"/></svg><span>گوهداری</span>';
+}
+
+function stopHistoryAudio(){
+  const audio=historyAudio,button=historyAudioButton,url=historyAudioUrl;
+  historyAudio=null;historyAudioButton=null;historyAudioUrl="";
+  if(audio){audio.pause();audio.currentTime=0}
+  if(url)URL.revokeObjectURL(url);
+  if(button)setHistoryPlayButton(button,false);
+}
+
+async function loadHistoryAudio(item,button,download=false){
+  if(!download&&historyAudioButton===button&&historyAudio){
+    stopHistoryAudio();
+    return;
+  }
+  if(!download)stopHistoryAudio();
+  try{
+    const response=await window.apiFetch(`/api/tts/history/${encodeURIComponent(item.id)}/audio`);
+    if(!response.ok){
+      const details=await window.apiError(response);
+      throw Object.assign(new Error(),details);
+    }
+    const objectUrl=URL.createObjectURL(await response.blob());
+    if(download){
+      const link=document.createElement("a");
+      link.href=objectUrl;
+      link.download=`CBR-TTS_${historyDay(item.created_at)}.mp3`;
+      document.body.append(link);
+      link.click();
+      link.remove();
+      URL.revokeObjectURL(objectUrl);
+      return;
+    }
+    const audio=new Audio(objectUrl);
+    historyAudio=audio;historyAudioButton=button;historyAudioUrl=objectUrl;
+    audio.addEventListener("ended",stopHistoryAudio,{once:true});
+    audio.addEventListener("error",()=>{
+      stopHistoryAudio();
+      historyMessage.textContent=window.errorMessage("network_error");
+    },{once:true});
+    setHistoryPlayButton(button,true);
+    await audio.play();
+  }catch(error){
+    if(!download&&historyAudioButton===button)stopHistoryAudio();
+    historyMessage.textContent=window.userErrorMessage(error);
+  }
+}
+
+async function loadTtsHistory(){
+  try{
+    if(!window.clientReady||!window.apiFetch||!window.readApi)return;
+    const supabase=await window.clientReady;
+    const {data:{session},error}=await supabase.auth.getSession();
+    if(error)throw error;
+    if(!session)return;
+    historySection.hidden=false;
+    historyMessage.textContent="مێژوو دهێتە بارکرن...";
+    const items=[];
+    for(let offset=0;;offset+=100){
+      const response=await window.apiFetch(`/api/tts/history?offset=${offset}`);
+      const page=await window.readApi(response);
+      items.push(...page);
+      if(page.length<100)break;
+    }
+    historyList.replaceChildren();
+    if(!items.length){
+      const empty=document.createElement("p");
+      empty.className="history-empty";
+      empty.textContent="هێشتا تۆمارا دەنگێن دروستکری نینە";
+      historyList.append(empty);
+    }else{
+      for(const item of items){
+        const row=document.createElement("article");
+        row.className="history-item";
+        const head=document.createElement("div");
+        head.className="history-item-head";
+        const details=document.createElement("div");
+        const voiceName=document.createElement("div");
+        voiceName.className="history-voice";
+        voiceName.textContent=item.voice_name;
+        const owner=document.createElement("span");
+        owner.className="history-owner";
+        owner.textContent=`خودانێ دەنگی: ${item.voice_owner_name}`;
+        details.append(voiceName,owner);
+        const date=document.createElement("time");
+        date.className="history-date";
+        date.dateTime=item.created_at;
+        date.textContent=new Date(item.created_at).toLocaleString();
+        head.append(details,date);
+        const originalText=document.createElement("p");
+        originalText.className="history-text";
+        originalText.dir="auto";
+        originalText.textContent=item.text;
+        const actions=document.createElement("div");
+        actions.className="history-actions";
+        const play=document.createElement("button");
+        play.className="history-action";
+        play.type="button";
+        play.setAttribute("aria-pressed","false");
+        setHistoryPlayButton(play,false);
+        play.addEventListener("click",()=>loadHistoryAudio(item,play));
+        const download=document.createElement("button");
+        download.className="history-action";
+        download.type="button";
+        download.innerHTML='<svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M12 3v12m0 0 4-4m-4 4-4-4M5 17v3h14v-3" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg><span>داگرتن</span>';
+        download.addEventListener("click",()=>loadHistoryAudio(item,download,true));
+        actions.append(play,download);
+        row.append(head,originalText,actions);
+        historyList.append(row);
+      }
+    }
+    historyMessage.textContent="";
+  }catch(error){
+    historySection.hidden=false;
+    historyMessage.textContent=window.userErrorMessage?window.userErrorMessage(error):"کێشەک چێبوو.";
+  }
+}
+void loadTtsHistory();
+
+function formatTime(seconds){
+  if(!Number.isFinite(seconds)||seconds<0)return "0:00";
+  const total=Math.floor(seconds);
+  const minutes=Math.floor(total/60);
+  const remaining=String(total%60).padStart(2,"0");
+  return minutes>=60
+    ?`${Math.floor(minutes/60)}:${String(minutes%60).padStart(2,"0")}:${remaining}`
+    :`${minutes}:${remaining}`;
+}
+
+function updatePlayer(){
+  const playing=!player.paused&&!player.ended;
+  playIcon.innerHTML=playing
+    ?'<path d="M8 5h3v14H8zM15 5h3v14h-3z" fill="currentColor"/>'
+    :'<path d="m8 5 11 7-11 7V5Z" fill="currentColor" stroke="currentColor" stroke-linejoin="round"/>';
+  playToggle.setAttribute("aria-label",playing?"دەنگی بگرە":"دەنگی ڤەکە");
+  playToggle.title=playing?"دەنگی بگرە":"دەنگی ڤەکە";
+  currentTimeLabel.textContent=formatTime(player.currentTime);
+  durationLabel.textContent=formatTime(player.duration);
+  if(Number.isFinite(player.duration)&&player.duration>0){
+    seek.max=String(player.duration);
+    seek.value=String(player.currentTime);
+    seek.disabled=false;
+  }else{
+    seek.value="0";
+    seek.disabled=true;
+  }
+}
+
+playToggle.addEventListener("click",async()=>{
+  if(!player.src)return;
+  if(player.paused){
+    try{await player.play()}catch{msg.textContent="دەنگ یێ ئامادەیە، بوو گوهداریکرنێ کلیکێ ل دوکمەیا ڤەکرنێ بکە"}
+  }else{
+    player.pause();
+  }
+});
+seek.addEventListener("input",()=>{if(Number.isFinite(player.duration))player.currentTime=Number(seek.value)});
+["loadedmetadata","durationchange","timeupdate","play","pause","ended"].forEach(event=>player.addEventListener(event,updatePlayer));
+
+function setVoicePreviewState(button,playing){
+  if(!button)return;
+  button.setAttribute("aria-pressed",String(playing));
+  button.setAttribute("aria-label",playing?`راوەستاندنا نموونا دەنگێ ${button.dataset.voiceName}`:`گوهداری ل نموونا دەنگێ ${button.dataset.voiceName}`);
+}
+
+function stopVoicePreview(){
+  const audio=voicePreviewAudio,button=voicePreviewButton;
+  voicePreviewAudio=null;voicePreviewButton=null;
+  if(audio){audio.pause();audio.currentTime=0}
+  setVoicePreviewState(button,false);
+}
+
+function renderVoiceOptions(){
+  const query=voiceSearch.value.trim().toLocaleLowerCase();
+  const options=[...voice.options].filter(option=>option.value);
+  const matches=options.filter(option=>option.textContent.toLocaleLowerCase().includes(query));
+  voiceOptions.replaceChildren();
+  if(!matches.length){
+    const empty=document.createElement("div");
+    empty.className="voice-empty";
+    empty.textContent="دەنگ نەهاتە دیتن.";
+    voiceOptions.append(empty);
+    return;
+  }
+  for(const option of matches){
+    const item=document.createElement("div");
+    item.className="voice-option";
+    item.setAttribute("role","none");
+    const select=document.createElement("button");
+    select.className="voice-option-select";
+    select.id=`voice-option-${option.value}`;
+    select.type="button";
+    select.setAttribute("role","option");
+    select.setAttribute("aria-selected",String(option.value===voice.value));
+    select.tabIndex=-1;
+    const mark=document.createElement("span");
+    mark.className="voice-option-mark";
+    mark.setAttribute("aria-hidden","true");
+    mark.innerHTML='<svg width="16" height="16" viewBox="0 0 24 24" fill="none"><path d="M4 10v4m4-8v12m4-16v20m4-16v12m4-8v4" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>';
+    const name=document.createElement("span");
+    name.className="voice-option-name";
+    name.textContent=option.textContent;
+    select.append(mark,name);
+    select.addEventListener("click",()=>selectVoice(option.value));
+    item.addEventListener("mousemove",()=>setActiveVoice(item));
+    item.append(select);
+    const voiceData=loadedVoices.find(v=>v.id===option.value);
+    if(voiceData?.previewUrl){
+      const preview=document.createElement("button");
+      preview.className="voice-option-preview";
+      preview.type="button";
+      preview.dataset.voiceName=voiceData.name;
+      preview.setAttribute("aria-pressed","false");
+      preview.setAttribute("aria-label",`گوهداری ل نموونا دەنگێ ${voiceData.name}`);
+      preview.innerHTML='<svg viewBox="0 0 24 24" aria-hidden="true"><path class="preview-play" d="M8 5.5v13l10-6.5-10-6.5Z" fill="currentColor"/><rect class="preview-stop" x="6.5" y="6.5" width="11" height="11" rx="2" fill="currentColor"/></svg>';
+      preview.addEventListener("click",async event=>{
+        event.stopPropagation();
+        if(voicePreviewButton===preview&&voicePreviewAudio){
+          stopVoicePreview();
+          return;
+        }
+        stopVoicePreview();
+        voicePreviewButton=preview;
+        let audio;
+        try{
+          audio=new Audio(voiceData.previewUrl);
+          voicePreviewAudio=audio;
+          audio.addEventListener("ended",()=>{if(voicePreviewAudio===audio)stopVoicePreview()},{once:true});
+          audio.addEventListener("error",()=>{
+            if(voicePreviewAudio===audio)stopVoicePreview();
+            msg.textContent=window.errorMessage("network_error");
+          },{once:true});
+          await audio.play();
+          if(voicePreviewAudio===audio)setVoicePreviewState(preview,true);
+        }catch{
+          if(voicePreviewAudio===audio)stopVoicePreview();
+          msg.textContent=window.errorMessage("network_error");
+        }
+      });
+      item.append(preview);
+    }
+    voiceOptions.append(item);
+  }
+}
+
+function setActiveVoice(item){
+  const row=item?.closest(".voice-option")||item;
+  voiceOptions.querySelectorAll(".voice-option").forEach(option=>option.classList.toggle("active",option===row));
+  voiceOptions.querySelectorAll(".voice-option-select").forEach(option=>option.tabIndex=option.closest(".voice-option")===row?0:-1);
+  row?.scrollIntoView({block:"nearest"});
+}
+
+function openVoicePicker(){
+  if(voice.disabled)return;
+  voiceMenu.hidden=false;
+  voiceTrigger.setAttribute("aria-expanded","true");
+  positionVoiceMenu();
+  voiceSearch.value="";
+  renderVoiceOptions();
+  voiceSearch.focus({preventScroll:true});
+}
+
+function positionVoiceMenu(){
+  const viewportHeight=window.visualViewport?.height||window.innerHeight;
+  const safeSpace=16;
+  let rect=voiceTrigger.getBoundingClientRect();
+  if(rect.top<safeSpace||rect.bottom>viewportHeight-safeSpace){
+    voiceTrigger.scrollIntoView({block:"nearest"});
+    requestAnimationFrame(positionVoiceMenu);
+    return;
+  }
+  const gap=9;
+  const below=viewportHeight-rect.bottom-gap-safeSpace;
+  const above=rect.top-gap-safeSpace;
+  const opensUp=below<360&&above>below;
+  const available=Math.max(80,Math.min(360,viewportHeight-safeSpace*2,opensUp?above:below));
+  voiceMenu.classList.toggle("opens-up",opensUp);
+  voiceMenu.style.setProperty("--voice-menu-max-height",`${available}px`);
+  voiceMenu.style.setProperty("--voice-options-max-height",`${Math.max(80,available-78)}px`);
+}
+
+function closeVoicePicker({focusTrigger=false}={}){
+  voiceMenu.hidden=true;
+  voiceTrigger.setAttribute("aria-expanded","false");
+  voiceMenu.classList.remove("opens-up");
+  voiceMenu.style.removeProperty("--voice-menu-max-height");
+  voiceMenu.style.removeProperty("--voice-options-max-height");
+  if(focusTrigger)voiceTrigger.focus();
+}
+
+function selectVoice(id){
+  stopVoicePreview();
+  voice.value=id;
+  voice.dispatchEvent(new Event("change",{bubbles:true}));
+  const selected=voice.options[voice.selectedIndex];
+  voiceSelection.textContent=selected?.textContent||"دەنگەکی هەلبژێرە";
+  voiceSelection.classList.toggle("voice-trigger-placeholder",!id);
+  renderVoiceOptions();
+  closeVoicePicker({focusTrigger:true});
+}
+
+voiceTrigger.addEventListener("click",()=>{
+  if(voiceMenu.hidden)openVoicePicker();
+  else closeVoicePicker();
+});
+window.addEventListener("resize",()=>{if(!voiceMenu.hidden)positionVoiceMenu()});
+window.addEventListener("scroll",()=>{if(!voiceMenu.hidden)positionVoiceMenu()},true);
+voiceSearch.addEventListener("input",renderVoiceOptions);
+voiceSearch.addEventListener("keydown",event=>{
+  const items=[...voiceOptions.querySelectorAll(".voice-option")];
+  const current=voiceOptions.querySelector(".voice-option.active");
+  let index=items.indexOf(current);
+  if(event.key==="ArrowDown"||event.key==="ArrowUp"){
+    event.preventDefault();
+    index=event.key==="ArrowDown"?Math.min(index+1,items.length-1):Math.max(index-1,0);
+    setActiveVoice(items[index]);
+  }else if(event.key==="Enter"&&items.length){
+    event.preventDefault();
+    (current||items[0]).querySelector(".voice-option-select").click();
+  }else if(event.key==="Escape"){
+    event.preventDefault();
+    closeVoicePicker({focusTrigger:true});
+  }
+});
+document.addEventListener("click",event=>{
+  if(!voicePicker.contains(event.target)&&!voiceMenu.hidden)closeVoicePicker();
+});
+
+async function loadVoices(selectedId=new URLSearchParams(location.search).get("voice")||""){
+  try{
+    const r=await window.apiFetch("/api/voices");
+    const voices=await window.readApi(r);
+    loadedVoices=voices;
+    voice.replaceChildren(new Option(voices.length?"دەنگەکی بهەلبژێرە":"دەنگ نەهاتنە دیتن",""));
+    voices.forEach(v=>voice.add(new Option(v.name,v.id)));
+    voice.disabled=voices.length===0;
+    voicesAvailable=voices.length>0;
+    updateCount();
+    if(selectedId&&voices.some(v=>v.id===selectedId))voice.value=selectedId;
+    voiceTrigger.disabled=voices.length===0;
+    const selected=voice.options[voice.selectedIndex];
+    voiceSelection.textContent=selected?.value?selected.textContent:"دەنگەکی هەلبژێرە";
+    voiceSelection.classList.toggle("voice-trigger-placeholder",!selected?.value);
+    renderVoiceOptions();
+    if(!voices.length)msg.textContent="هیچ دەنگەک نەهاتە دیتن";
+  }catch(error){
+    voice.replaceChildren(new Option("دەنگ ناهێن",""));
+    voiceTrigger.disabled=true;
+    voiceSelection.textContent="دەنگ ناهێن";
+    voiceSelection.classList.add("voice-trigger-placeholder");
+    msg.textContent=window.userErrorMessage?window.userErrorMessage(error):"کێشەک د هاتنا دەنگان دا چێبوو.";
+  }
+}
+loadVoices();
+
+go.addEventListener("click",async()=>{
+  updateCount();
+  if(go.disabled)return;
+  msg.textContent="";
+  if(!text.value.trim()){
+    msg.textContent=window.errorMessage?window.errorMessage("text_required"):"تکایە نڤیسارەکێ بنڤیسە.";
+    return;
+  }
+  generating=true;updateCount();goLabel.textContent="دهێتە سازکرن...";
+  try{
+    const r=await window.apiFetch("/api/speak",{
+      method:"POST",
+      headers:{"Content-Type":"application/json","Idempotency-Key":crypto.randomUUID()},
+      body:JSON.stringify({text:text.value,voiceId:voice.value})
+    });
+    if(!r.ok){
+      const details=await window.apiError(r);
+      throw Object.assign(new Error(),details);
+    }
+    const url=URL.createObjectURL(await r.blob());
+    player.src=url;dl.href=url;dl.hidden=false;
+    result.hidden=false;
+    void loadTtsHistory();
+    player.load();
+    updatePlayer();
+    player.play().catch(()=>{
+      msg.textContent="دەنگ یێ ئامادەیە، بوو گوهداریکرنێ کلیکێ ل دوکمەیا ڤەکرنێ بکە";
+    });
+  }catch(error){
+    msg.textContent=window.userErrorMessage?window.userErrorMessage(error):"کێشەک د سازکرنا دەنگی دا چێبوو.";
+  }finally{
+    generating=false;
+    goLabel.textContent="دەنگی ساز بکە";
+    updateCount();
+  }
+});
+player.addEventListener("play",()=>wave.classList.add("on"));
+["pause","ended"].forEach(e=>player.addEventListener(e,()=>wave.classList.remove("on")));
+</script>
 </body>
 </html>
