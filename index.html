@@ -3,7 +3,8 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>CBR TTS — خۆڕایی</title>
+  <title>CBR TTS — دیزاین</title>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Naskh+Arabic:wght@400;600;700&display=swap" />
   <style>
     :root {
       color-scheme: light;
@@ -16,9 +17,9 @@
       --sea-dark: #10575c;
       --accent: #d9f1e8;
       --hero-glow: #c6e8df;
-      --err: #a92b36;
       --shadow: 0 24px 70px #19344a12;
     }
+
     @media (prefers-color-scheme: dark) {
       :root {
         color-scheme: dark;
@@ -31,24 +32,88 @@
         --sea-dark: #a0e3d5;
         --accent: #243e3c;
         --hero-glow: #16433f;
-        --err: #ff929a;
         --shadow: 0 24px 70px #0005;
       }
     }
+
     * { box-sizing: border-box; }
-    [hidden] { display: none !important; }
+
     body {
       margin: 0;
       min-height: 100vh;
       background: radial-gradient(ellipse at 50% -20%, var(--hero-glow) 0, transparent 58%), var(--bg);
       color: var(--ink);
       font-family: "Noto Naskh Arabic", "Segoe UI", Tahoma, sans-serif;
-      font-size: 16px;
+      font-size: 17px;
       line-height: 1.8;
-      padding: 24px 16px 48px;
+      padding: 28px 18px 56px;
     }
-    main { width: 100%; max-width: 760px; margin: 0 auto; }
-    .intro { text-align: center; margin: 0 auto 24px; max-width: 600px; }
+
+    main {
+      width: 100%;
+      max-width: 760px;
+      margin: 0 auto;
+    }
+
+    nav {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 14px;
+      margin-bottom: 34px;
+      flex-wrap: wrap;
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-weight: 700;
+      color: var(--ink);
+      text-decoration: none;
+    }
+
+    .brand-mark {
+      display: grid;
+      place-items: center;
+      width: 40px;
+      height: 40px;
+      border-radius: 14px;
+      background: var(--sea);
+      color: #fff;
+      font-weight: 700;
+    }
+
+    .mode-switch {
+      display: flex;
+      align-items: center;
+      gap: 4px;
+      padding: 4px;
+      border: 1px solid var(--line);
+      border-radius: 17px;
+      background: color-mix(in srgb, var(--card) 75%, var(--bg));
+    }
+
+    .mode-item {
+      padding: 7px 14px;
+      border-radius: 13px;
+      font-size: .9rem;
+      font-weight: 700;
+      color: var(--muted);
+    }
+
+    .mode-item.active {
+      background: var(--card);
+      color: var(--sea-dark);
+      border: 1px solid var(--line);
+    }
+
+    .intro {
+      text-align: center;
+      margin: 0 auto 28px;
+      max-width: 600px;
+    }
+
     .eyebrow {
       display: inline-flex;
       align-items: center;
@@ -61,46 +126,105 @@
       font-size: .84rem;
       font-weight: 700;
     }
-    h1 { font-size: clamp(1.9rem, 6vw, 2.5rem); margin: 0 0 6px; line-height: 1.3; }
-    .sub { color: var(--muted); margin: 0; font-size: .95rem; }
+
+    h1 {
+      font-size: clamp(2rem, 6vw, 2.7rem);
+      font-weight: 700;
+      margin: 0 0 6px;
+      line-height: 1.35;
+    }
+
+    .sub {
+      color: var(--muted);
+      margin: 0;
+    }
+
     .card {
       background: var(--card);
       border: 1px solid var(--line);
-      border-radius: 24px;
-      padding: clamp(18px, 4vw, 32px);
+      border-radius: 26px;
+      padding: clamp(20px, 5vw, 36px);
       box-shadow: var(--shadow);
     }
-    .field-label { display: block; font-weight: 700; margin-bottom: 8px; }
+
+    .card-head {
+      display: flex;
+      align-items: flex-start;
+      gap: 14px;
+      margin-bottom: 20px;
+    }
+
+    .head-icon {
+      display: grid;
+      place-items: center;
+      flex: none;
+      width: 48px;
+      height: 48px;
+      border-radius: 16px;
+      background: var(--accent);
+      color: var(--sea);
+      font-weight: 700;
+    }
+
+    h2 {
+      font-size: 1.35rem;
+      margin: 0 0 2px;
+    }
+
+    .help {
+      color: var(--muted);
+      font-size: .92rem;
+      margin: 0;
+    }
+
     textarea {
       display: block;
       width: 100%;
-      min-height: 190px;
+      min-height: 210px;
       resize: vertical;
       border: 1px solid var(--line);
-      border-radius: 16px;
+      border-radius: 17px;
       background: var(--bg);
       color: inherit;
-      padding: 15px 17px;
+      padding: 17px 19px;
       font: inherit;
       line-height: 1.8;
     }
-    textarea:focus, select:focus, input:focus {
-      outline: none;
-      border-color: var(--sea);
-      box-shadow: 0 0 0 3px color-mix(in srgb, var(--sea) 16%, transparent);
+
+    textarea::placeholder {
+      color: var(--muted);
+      opacity: .85;
     }
-    .tag-tools {
-      margin-top: 14px;
+
+    .tag-box {
+      margin-top: 16px;
       border: 1px solid var(--line);
       border-radius: 16px;
       background: var(--bg);
-      padding: 12px 14px;
+      padding: 14px 15px;
     }
-    .tag-note { margin: 0 0 10px; color: var(--muted); font-size: .85rem; }
-    .tag-presets { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 10px; }
+
+    .tag-title {
+      font-weight: 700;
+      margin: 0 0 6px;
+      font-size: .95rem;
+    }
+
+    .tag-note {
+      margin: 0 0 12px;
+      color: var(--muted);
+      font-size: .84rem;
+    }
+
+    .tag-presets {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-bottom: 12px;
+    }
+
     .tag-chip {
-      min-height: 34px;
-      padding: 4px 12px;
+      padding: 6px 12px;
       border: 1px solid var(--line);
       border-radius: 999px;
       background: var(--card);
@@ -108,14 +232,17 @@
       font: inherit;
       font-size: .84rem;
       font-weight: 600;
-      cursor: pointer;
     }
-    .tag-chip:hover { border-color: var(--sea); background: var(--accent); color: var(--sea-dark); }
-    .custom-tag-row { display: flex; gap: 8px; }
+
+    .custom-tag-row {
+      display: flex;
+      gap: 8px;
+    }
+
     .custom-tag-input {
       flex: 1;
       min-width: 0;
-      height: 40px;
+      height: 42px;
       padding: 6px 11px;
       border: 1px solid var(--line);
       border-radius: 11px;
@@ -123,222 +250,155 @@
       color: var(--ink);
       font: inherit;
     }
-    .toolbar {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      gap: 12px;
-      margin-top: 16px;
-      flex-wrap: wrap;
-    }
-    .count { color: var(--muted); font-size: .88rem; }
-    .actions { display: flex; gap: 10px; flex-wrap: wrap; }
-    button {
+
+    .fake-btn {
       display: inline-flex;
       align-items: center;
       justify-content: center;
-      gap: 8px;
-      min-height: 46px;
-      padding: 8px 18px;
-      border: 0;
-      border-radius: 13px;
-      background: var(--sea);
-      color: #fff;
-      font: inherit;
+      min-height: 42px;
+      padding: 6px 16px;
+      border-radius: 12px;
+      background: var(--accent);
+      color: var(--sea-dark);
+      font-size: .88rem;
       font-weight: 700;
-      cursor: pointer;
+      border: 1px solid var(--sea);
     }
-    button:hover { background: var(--sea-dark); }
-    button.secondary {
-      background: var(--bg);
-      color: var(--ink);
-      border: 1px solid var(--line);
+
+    .toolbar {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) auto;
+      gap: 14px;
+      align-items: end;
+      margin-top: 18px;
     }
-    button.secondary:hover { border-color: var(--sea); background: var(--accent); color: var(--sea-dark); }
-    .status {
-      margin-top: 14px;
-      padding: 11px 14px;
-      border-radius: 14px;
-      background: var(--bg);
+
+    .field-label {
+      display: block;
+      font-weight: 700;
+      margin-bottom: 7px;
+    }
+
+    .select-box {
+      width: 100%;
+      height: 52px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 8px 14px;
       border: 1px solid var(--line);
-      font-size: .9rem;
+      border-radius: 13px;
+      background: var(--bg);
       color: var(--muted);
     }
-    .history-section {
-      margin-top: 20px;
-      padding: 18px;
-      border: 1px solid var(--line);
-      border-radius: 22px;
-      background: var(--card);
-      box-shadow: var(--shadow);
+
+    .actions {
+      display: flex;
+      align-items: center;
+      gap: 12px;
     }
-    .history-item {
-      padding: 12px;
-      border: 1px solid var(--line);
+
+    .count {
+      color: var(--muted);
+      font-size: .85rem;
+      white-space: nowrap;
+    }
+
+    .primary-box {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 52px;
+      padding: 10px 22px;
       border-radius: 14px;
-      background: var(--bg);
-      margin-top: 10px;
+      background: var(--sea);
+      color: #fff;
+      font-weight: 700;
     }
-    .history-text { margin: 0 0 8px; white-space: pre-wrap; }
+
+    .privacy-note {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      margin: 22px 0 0;
+      color: var(--muted);
+      font-size: .84rem;
+      text-align: center;
+    }
+
+    @media (max-width: 560px) {
+      body { padding: 18px 14px 36px; }
+      .toolbar { grid-template-columns: 1fr; }
+      .actions { justify-content: space-between; }
+    }
   </style>
 </head>
 <body>
   <main>
+    <nav aria-label="سەرەکی">
+      <div class="brand">
+        <span class="brand-mark">C</span>
+        <span>CBR TTS</span>
+      </div>
+      <div class="mode-switch">
+        <span class="mode-item active">CBR TTS</span>
+        <span class="mode-item">تۆمارکرنا دەنگی</span>
+      </div>
+    </nav>
+
     <header class="intro">
-      <span class="eyebrow">خۆڕایی · بێی کریت و پلان</span>
-      <h1>CBR TTS Free</h1>
-      <p class="sub">نڤیسارا خۆ بنڤیسە، تاگێ هەستی لێ بدە، و بێی کریت تاقی بکە</p>
+      <span class="eyebrow">CBR TTS</span>
+      <h1>CBR TTS</h1>
+      <p class="sub">ئێکەمین ژیریا دەستکرد کو نڤیسارێ بکەتە دەنگێ سروشتی ب زاراڤێ بادینی و هەمی زاراڤێن جیهانی</p>
     </header>
 
     <section class="card">
-      <label class="field-label" for="text">نڤیسارا خۆ بنڤیسە</label>
-      <textarea id="text" maxlength="2500" placeholder="لێرە نڤیسارا خۆ بنڤیسە..."></textarea>
-
-      <div class="tag-tools">
-        <p class="tag-note">نیشانا هەستی ل سەر نڤیسارێ زێدە بکە (وەک <bdi>[excited]</bdi>):</p>
-        <div class="tag-presets">
-          <button class="tag-chip" type="button" data-tag="whispering">ب دەنگێ نزم</button>
-          <button class="tag-chip" type="button" data-tag="shouting">ب هاوار</button>
-          <button class="tag-chip" type="button" data-tag="laughing">پێکەنین</button>
-          <button class="tag-chip" type="button" data-tag="excited">ب خۆشی</button>
-          <button class="tag-chip" type="button" data-tag="sad">ب خەم</button>
-          <button class="tag-chip" type="button" data-tag="curious">ب حەیرانی</button>
-          <button class="tag-chip" type="button" data-tag="angrily">ب تووڕەیی</button>
-          <button class="tag-chip" type="button" data-tag="gently">ب هێدی و نەرم</button>
+      <div class="card-head">
+        <span class="head-icon">≡</span>
+        <div>
+          <h2>نڤیسارا خو بنڤیسە</h2>
+          <p class="help">نڤیسارا خوو دناڤا بوکسێ دا بنڤیسە</p>
         </div>
-        <form class="custom-tag-row" id="customTagForm">
-          <input class="custom-tag-input" id="customTag" maxlength="40" type="text" placeholder="نیشانا خۆ ب ئینگلیزی بنڤیسە وەک: softly" />
-          <button type="submit">زێدە بکە</button>
-        </form>
+      </div>
+
+      <textarea placeholder="لێرە نڤیسارا خو بنڤیسە..." aria-label="نڤیسار"></textarea>
+
+      <div class="tag-box">
+        <p class="tag-title">گوهورینا هەستێ ئاخفتنێ</p>
+        <p class="tag-note">نیشانا تە ب ئینگلیزی دێ دناڤا نڤیسارا تەدا زێدەبیت وەکی <bdi>[excited]</bdi></p>
+        <div class="tag-presets">
+          <span class="tag-chip">ب دەنگێ نزم</span>
+          <span class="tag-chip">ب هاوار</span>
+          <span class="tag-chip">پێکەنین</span>
+          <span class="tag-chip">ب خۆشی</span>
+          <span class="tag-chip">ب خەم</span>
+          <span class="tag-chip">ب حەیرانی</span>
+          <span class="tag-chip">ب تووڕەیی</span>
+          <span class="tag-chip">ب هێدی و نەرم</span>
+        </div>
+        <div class="custom-tag-row">
+          <input class="custom-tag-input" type="text" placeholder="نیشانا خوو ب ئینگلیزی لڤێرێ بنڤێسە وەک: softly" />
+          <span class="fake-btn">نیشانێ زێدە بکە</span>
+        </div>
       </div>
 
       <div class="toolbar">
-        <span class="count"><span id="n">0</span> / 2500 · خۆڕایی (∞)</span>
+        <div>
+          <span class="field-label">دەنگەکی بهەلبژێرە</span>
+          <div class="select-box">
+            <span>دەنگەکی بهەلبژێرە</span>
+            <span>▾</span>
+          </div>
+        </div>
         <div class="actions">
-          <button id="go" type="button">دەنگی ساز بکە / بخوێنە</button>
-          <button class="secondary" id="stopBtn" type="button">ڕاوەستێنە</button>
-          <button class="secondary" id="clearBtn" type="button">پاقژ بکە</button>
+          <span class="count">0 / 2500</span>
+          <span class="primary-box">دەنگی ساز بکە</span>
         </div>
       </div>
-
-      <div id="msg" class="status" role="status">ئامادەیە — بێی سێرڤەر، بێی کریت، و خۆڕایی.</div>
     </section>
 
-    <section class="history-section" id="historySection">
-      <strong>مێژوویا خۆجێیی (د ناڤ وێبگەڕێ تە دا)</strong>
-      <div id="historyList"></div>
-    </section>
+    <p class="privacy-note">کورد سی بی ئاڕ — دیزاین</p>
   </main>
-
-  <script>
-    const $ = id => document.getElementById(id);
-    const textEl = $("text");
-    const nEl = $("n");
-    const msgEl = $("msg");
-    const historyList = $("historyList");
-    const customTagForm = $("customTagForm");
-    const customTagInput = $("customTag");
-
-    function updateCount() {
-      nEl.textContent = String(textEl.value.length);
-    }
-    textEl.addEventListener("input", updateCount);
-
-    function insertTag(tag) {
-      const snippet = `[${tag}] `;
-      const start = textEl.selectionStart ?? textEl.value.length;
-      const end = textEl.selectionEnd ?? textEl.value.length;
-      textEl.value = textEl.value.slice(0, start) + snippet + textEl.value.slice(end);
-      updateCount();
-      textEl.focus();
-    }
-
-    document.querySelectorAll(".tag-chip[data-tag]").forEach(btn => {
-      btn.addEventListener("click", () => insertTag(btn.dataset.tag));
-    });
-
-    customTagForm.addEventListener("submit", e => {
-      e.preventDefault();
-      const tag = customTagInput.value.trim().toLowerCase();
-      if (!tag) return;
-      if (!/^[a-z][a-z\s,'-]{0,39}$/i.test(tag)) {
-        msgEl.textContent = "تکایە نیشانەکێ ب پیتێن ئینگلیزی بنڤیسە.";
-        return;
-      }
-      insertTag(tag);
-      customTagInput.value = "";
-    });
-
-    function renderHistory(items) {
-      historyList.replaceChildren();
-      if (!items.length) {
-        const p = document.createElement("p");
-        p.style.color = "var(--muted)";
-        p.style.fontSize = ".9rem";
-        p.textContent = "هێشتا هیچ تۆمارەک نینە.";
-        historyList.append(p);
-        return;
-      }
-      items.slice().reverse().forEach(item => {
-        const div = document.createElement("div");
-        div.className = "history-item";
-        const p = document.createElement("p");
-        p.className = "history-text";
-        p.textContent = item.text;
-        const btn = document.createElement("button");
-        btn.className = "secondary";
-        btn.type = "button";
-        btn.textContent = "دووبارە بخوێنە";
-        btn.addEventListener("click", () => speakClean(item.cleanText));
-        div.append(p, btn);
-        historyList.append(div);
-      });
-    }
-
-    let localHistory = [];
-    try {
-      localHistory = JSON.parse(localStorage.getItem("free_tts_history") || "[]");
-    } catch {}
-    renderHistory(localHistory);
-
-    function speakClean(cleanText) {
-      if (!("speechSynthesis" in window)) {
-        msgEl.textContent = "وێبگەڕێ تە پشتگیرییا SpeechSynthesis ناکەت.";
-        return;
-      }
-      window.speechSynthesis.cancel();
-      const utter = new SpeechSynthesisUtterance(cleanText);
-      utter.onstart = () => { msgEl.textContent = "دەنگ دهێتە خوێندن..."; };
-      utter.onend = () => { msgEl.textContent = "خوێندن ب دوماهیک هات."; };
-      utter.onerror = () => { msgEl.textContent = "ل سەر ڤێ مۆبایلێ دەنگێ گونجای بۆ خوێندنا ڤێ نڤیسینێ نەهاتە دیتن."; };
-      window.speechSynthesis.speak(utter);
-    }
-
-    $("go").addEventListener("click", () => {
-      const raw = textEl.value.trim();
-      const clean = raw.replace(/\[[^\]]+\]/g, " ").replace(/\s+/g, " ").trim();
-      if (!clean) {
-        msgEl.textContent = "تکایە نڤیسارەکێ بنڤیسە.";
-        return;
-      }
-      localHistory.push({ text: raw, cleanText: clean, at: Date.now() });
-      try {
-        localStorage.setItem("free_tts_history", JSON.stringify(localHistory.slice(-20)));
-      } catch {}
-      renderHistory(localHistory);
-      speakClean(clean);
-    });
-
-    $("stopBtn").addEventListener("click", () => {
-      if ("speechSynthesis" in window) window.speechSynthesis.cancel();
-      msgEl.textContent = "ڕاوەستیا.";
-    });
-
-    $("clearBtn").addEventListener("click", () => {
-      textEl.value = "";
-      updateCount();
-      msgEl.textContent = "پاقژ بوو.";
-    });
-  </script>
 </body>
 </html>
