@@ -1,0 +1,344 @@
+<!DOCTYPE html>
+<html lang="ku" dir="rtl">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>CBR TTS — خۆڕایی</title>
+  <style>
+    :root {
+      color-scheme: light;
+      --bg: #f4f7fb;
+      --card: #ffffff;
+      --ink: #152638;
+      --muted: #65788b;
+      --line: #e1e8ef;
+      --sea: #166b70;
+      --sea-dark: #10575c;
+      --accent: #d9f1e8;
+      --hero-glow: #c6e8df;
+      --err: #a92b36;
+      --shadow: 0 24px 70px #19344a12;
+    }
+    @media (prefers-color-scheme: dark) {
+      :root {
+        color-scheme: dark;
+        --bg: #101a22;
+        --card: #172630;
+        --ink: #eaf1f3;
+        --muted: #9bb0ba;
+        --line: #2b414b;
+        --sea: #75d0bf;
+        --sea-dark: #a0e3d5;
+        --accent: #243e3c;
+        --hero-glow: #16433f;
+        --err: #ff929a;
+        --shadow: 0 24px 70px #0005;
+      }
+    }
+    * { box-sizing: border-box; }
+    [hidden] { display: none !important; }
+    body {
+      margin: 0;
+      min-height: 100vh;
+      background: radial-gradient(ellipse at 50% -20%, var(--hero-glow) 0, transparent 58%), var(--bg);
+      color: var(--ink);
+      font-family: "Noto Naskh Arabic", "Segoe UI", Tahoma, sans-serif;
+      font-size: 16px;
+      line-height: 1.8;
+      padding: 24px 16px 48px;
+    }
+    main { width: 100%; max-width: 760px; margin: 0 auto; }
+    .intro { text-align: center; margin: 0 auto 24px; max-width: 600px; }
+    .eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 7px;
+      padding: 4px 12px;
+      margin-bottom: 10px;
+      border-radius: 999px;
+      background: var(--accent);
+      color: var(--sea-dark);
+      font-size: .84rem;
+      font-weight: 700;
+    }
+    h1 { font-size: clamp(1.9rem, 6vw, 2.5rem); margin: 0 0 6px; line-height: 1.3; }
+    .sub { color: var(--muted); margin: 0; font-size: .95rem; }
+    .card {
+      background: var(--card);
+      border: 1px solid var(--line);
+      border-radius: 24px;
+      padding: clamp(18px, 4vw, 32px);
+      box-shadow: var(--shadow);
+    }
+    .field-label { display: block; font-weight: 700; margin-bottom: 8px; }
+    textarea {
+      display: block;
+      width: 100%;
+      min-height: 190px;
+      resize: vertical;
+      border: 1px solid var(--line);
+      border-radius: 16px;
+      background: var(--bg);
+      color: inherit;
+      padding: 15px 17px;
+      font: inherit;
+      line-height: 1.8;
+    }
+    textarea:focus, select:focus, input:focus {
+      outline: none;
+      border-color: var(--sea);
+      box-shadow: 0 0 0 3px color-mix(in srgb, var(--sea) 16%, transparent);
+    }
+    .tag-tools {
+      margin-top: 14px;
+      border: 1px solid var(--line);
+      border-radius: 16px;
+      background: var(--bg);
+      padding: 12px 14px;
+    }
+    .tag-note { margin: 0 0 10px; color: var(--muted); font-size: .85rem; }
+    .tag-presets { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 10px; }
+    .tag-chip {
+      min-height: 34px;
+      padding: 4px 12px;
+      border: 1px solid var(--line);
+      border-radius: 999px;
+      background: var(--card);
+      color: var(--ink);
+      font: inherit;
+      font-size: .84rem;
+      font-weight: 600;
+      cursor: pointer;
+    }
+    .tag-chip:hover { border-color: var(--sea); background: var(--accent); color: var(--sea-dark); }
+    .custom-tag-row { display: flex; gap: 8px; }
+    .custom-tag-input {
+      flex: 1;
+      min-width: 0;
+      height: 40px;
+      padding: 6px 11px;
+      border: 1px solid var(--line);
+      border-radius: 11px;
+      background: var(--card);
+      color: var(--ink);
+      font: inherit;
+    }
+    .toolbar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 12px;
+      margin-top: 16px;
+      flex-wrap: wrap;
+    }
+    .count { color: var(--muted); font-size: .88rem; }
+    .actions { display: flex; gap: 10px; flex-wrap: wrap; }
+    button {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      min-height: 46px;
+      padding: 8px 18px;
+      border: 0;
+      border-radius: 13px;
+      background: var(--sea);
+      color: #fff;
+      font: inherit;
+      font-weight: 700;
+      cursor: pointer;
+    }
+    button:hover { background: var(--sea-dark); }
+    button.secondary {
+      background: var(--bg);
+      color: var(--ink);
+      border: 1px solid var(--line);
+    }
+    button.secondary:hover { border-color: var(--sea); background: var(--accent); color: var(--sea-dark); }
+    .status {
+      margin-top: 14px;
+      padding: 11px 14px;
+      border-radius: 14px;
+      background: var(--bg);
+      border: 1px solid var(--line);
+      font-size: .9rem;
+      color: var(--muted);
+    }
+    .history-section {
+      margin-top: 20px;
+      padding: 18px;
+      border: 1px solid var(--line);
+      border-radius: 22px;
+      background: var(--card);
+      box-shadow: var(--shadow);
+    }
+    .history-item {
+      padding: 12px;
+      border: 1px solid var(--line);
+      border-radius: 14px;
+      background: var(--bg);
+      margin-top: 10px;
+    }
+    .history-text { margin: 0 0 8px; white-space: pre-wrap; }
+  </style>
+</head>
+<body>
+  <main>
+    <header class="intro">
+      <span class="eyebrow">خۆڕایی · بێی کریت و پلان</span>
+      <h1>CBR TTS Free</h1>
+      <p class="sub">نڤیسارا خۆ بنڤیسە، تاگێ هەستی لێ بدە، و بێی کریت تاقی بکە</p>
+    </header>
+
+    <section class="card">
+      <label class="field-label" for="text">نڤیسارا خۆ بنڤیسە</label>
+      <textarea id="text" maxlength="2500" placeholder="لێرە نڤیسارا خۆ بنڤیسە..."></textarea>
+
+      <div class="tag-tools">
+        <p class="tag-note">نیشانا هەستی ل سەر نڤیسارێ زێدە بکە (وەک <bdi>[excited]</bdi>):</p>
+        <div class="tag-presets">
+          <button class="tag-chip" type="button" data-tag="whispering">ب دەنگێ نزم</button>
+          <button class="tag-chip" type="button" data-tag="shouting">ب هاوار</button>
+          <button class="tag-chip" type="button" data-tag="laughing">پێکەنین</button>
+          <button class="tag-chip" type="button" data-tag="excited">ب خۆشی</button>
+          <button class="tag-chip" type="button" data-tag="sad">ب خەم</button>
+          <button class="tag-chip" type="button" data-tag="curious">ب حەیرانی</button>
+          <button class="tag-chip" type="button" data-tag="angrily">ب تووڕەیی</button>
+          <button class="tag-chip" type="button" data-tag="gently">ب هێدی و نەرم</button>
+        </div>
+        <form class="custom-tag-row" id="customTagForm">
+          <input class="custom-tag-input" id="customTag" maxlength="40" type="text" placeholder="نیشانا خۆ ب ئینگلیزی بنڤیسە وەک: softly" />
+          <button type="submit">زێدە بکە</button>
+        </form>
+      </div>
+
+      <div class="toolbar">
+        <span class="count"><span id="n">0</span> / 2500 · خۆڕایی (∞)</span>
+        <div class="actions">
+          <button id="go" type="button">دەنگی ساز بکە / بخوێنە</button>
+          <button class="secondary" id="stopBtn" type="button">ڕاوەستێنە</button>
+          <button class="secondary" id="clearBtn" type="button">پاقژ بکە</button>
+        </div>
+      </div>
+
+      <div id="msg" class="status" role="status">ئامادەیە — بێی سێرڤەر، بێی کریت، و خۆڕایی.</div>
+    </section>
+
+    <section class="history-section" id="historySection">
+      <strong>مێژوویا خۆجێیی (د ناڤ وێبگەڕێ تە دا)</strong>
+      <div id="historyList"></div>
+    </section>
+  </main>
+
+  <script>
+    const $ = id => document.getElementById(id);
+    const textEl = $("text");
+    const nEl = $("n");
+    const msgEl = $("msg");
+    const historyList = $("historyList");
+    const customTagForm = $("customTagForm");
+    const customTagInput = $("customTag");
+
+    function updateCount() {
+      nEl.textContent = String(textEl.value.length);
+    }
+    textEl.addEventListener("input", updateCount);
+
+    function insertTag(tag) {
+      const snippet = `[${tag}] `;
+      const start = textEl.selectionStart ?? textEl.value.length;
+      const end = textEl.selectionEnd ?? textEl.value.length;
+      textEl.value = textEl.value.slice(0, start) + snippet + textEl.value.slice(end);
+      updateCount();
+      textEl.focus();
+    }
+
+    document.querySelectorAll(".tag-chip[data-tag]").forEach(btn => {
+      btn.addEventListener("click", () => insertTag(btn.dataset.tag));
+    });
+
+    customTagForm.addEventListener("submit", e => {
+      e.preventDefault();
+      const tag = customTagInput.value.trim().toLowerCase();
+      if (!tag) return;
+      if (!/^[a-z][a-z\s,'-]{0,39}$/i.test(tag)) {
+        msgEl.textContent = "تکایە نیشانەکێ ب پیتێن ئینگلیزی بنڤیسە.";
+        return;
+      }
+      insertTag(tag);
+      customTagInput.value = "";
+    });
+
+    function renderHistory(items) {
+      historyList.replaceChildren();
+      if (!items.length) {
+        const p = document.createElement("p");
+        p.style.color = "var(--muted)";
+        p.style.fontSize = ".9rem";
+        p.textContent = "هێشتا هیچ تۆمارەک نینە.";
+        historyList.append(p);
+        return;
+      }
+      items.slice().reverse().forEach(item => {
+        const div = document.createElement("div");
+        div.className = "history-item";
+        const p = document.createElement("p");
+        p.className = "history-text";
+        p.textContent = item.text;
+        const btn = document.createElement("button");
+        btn.className = "secondary";
+        btn.type = "button";
+        btn.textContent = "دووبارە بخوێنە";
+        btn.addEventListener("click", () => speakClean(item.cleanText));
+        div.append(p, btn);
+        historyList.append(div);
+      });
+    }
+
+    let localHistory = [];
+    try {
+      localHistory = JSON.parse(localStorage.getItem("free_tts_history") || "[]");
+    } catch {}
+    renderHistory(localHistory);
+
+    function speakClean(cleanText) {
+      if (!("speechSynthesis" in window)) {
+        msgEl.textContent = "وێبگەڕێ تە پشتگیرییا SpeechSynthesis ناکەت.";
+        return;
+      }
+      window.speechSynthesis.cancel();
+      const utter = new SpeechSynthesisUtterance(cleanText);
+      utter.onstart = () => { msgEl.textContent = "دەنگ دهێتە خوێندن..."; };
+      utter.onend = () => { msgEl.textContent = "خوێندن ب دوماهیک هات."; };
+      utter.onerror = () => { msgEl.textContent = "ل سەر ڤێ مۆبایلێ دەنگێ گونجای بۆ خوێندنا ڤێ نڤیسینێ نەهاتە دیتن."; };
+      window.speechSynthesis.speak(utter);
+    }
+
+    $("go").addEventListener("click", () => {
+      const raw = textEl.value.trim();
+      const clean = raw.replace(/\[[^\]]+\]/g, " ").replace(/\s+/g, " ").trim();
+      if (!clean) {
+        msgEl.textContent = "تکایە نڤیسارەکێ بنڤیسە.";
+        return;
+      }
+      localHistory.push({ text: raw, cleanText: clean, at: Date.now() });
+      try {
+        localStorage.setItem("free_tts_history", JSON.stringify(localHistory.slice(-20)));
+      } catch {}
+      renderHistory(localHistory);
+      speakClean(clean);
+    });
+
+    $("stopBtn").addEventListener("click", () => {
+      if ("speechSynthesis" in window) window.speechSynthesis.cancel();
+      msgEl.textContent = "ڕاوەستیا.";
+    });
+
+    $("clearBtn").addEventListener("click", () => {
+      textEl.value = "";
+      updateCount();
+      msgEl.textContent = "پاقژ بوو.";
+    });
+  </script>
+</body>
+</html>
